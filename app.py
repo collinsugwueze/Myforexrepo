@@ -1,11 +1,14 @@
-from flask import Flask
+from flask import Flask, request
 import os
 
 app = Flask(__name__)
 
-@app.route('/webhook', methods=['POST'])
+@app.route('/webhook', methods=['GET', 'POST'])
 def webhook():
-    return {'status': 'success'}, 200
+    if request.method == 'GET':
+        return {'status': 'success', 'message': 'Webhook is ready'}, 200
+    elif request.method == 'POST':
+        return {'status': 'success', 'message': 'Data received'}, 200
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
